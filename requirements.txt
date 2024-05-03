@@ -1,0 +1,9 @@
+requests
+beautifulsoup4
+pandas
+numpy
+selenium
+undetected-chromedriver
+selenium-stealth
+lxml
+Flask
