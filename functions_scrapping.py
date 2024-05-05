@@ -396,13 +396,13 @@ def process_list_anuncios(anuncios, url):
         div_price = anuncio.find("div", attrs={"data-qa": "POSTING_CARD_PRICE"}).get_text(strip=True) if anuncio.find("div", attrs={"data-qa": "POSTING_CARD_PRICE"}) else None
 
         # Definir el precio de los gastos del anuncio
-        div_expense = anuncio.find("div", class_="sc-12dh9kl-1 chzHQe").get_text(strip=True) if anuncio.find("div", class_="sc-12dh9kl-1 chzHQe") else None
+        div_expense = anuncio.find("div", attrs={"data-qa": "expensas"}).get_text(strip=True) if anuncio.find("div", attrs={"data-qa": "expensas"}) else None
 
         # Definir el vecindario, ciudad y dirección del anuncio
-        div_locationinfo = anuncio.find("div", class_="sc-ge2uzh-1 gFoERH")
+        div_locationinfo = anuncio.find("div", class_=re.compile(".*LocationBlock.*"))
         if div_locationinfo:
-            address = div_locationinfo.find("div", class_="sc-ge2uzh-0 hNEJMK postingAddress").get_text(strip=True) if div_locationinfo.find("div", class_="sc-ge2uzh-0 hNEJMK postingAddress") else None
-            neigh, city = div_locationinfo.find("h2", class_="sc-ge2uzh-2 foowHA").get_text(strip=True).split(",") if div_locationinfo.find("h2", class_="sc-ge2uzh-2 foowHA") else (None, None)
+            address = div_locationinfo.find("div", class_=re.compile(".*LocationAddress.*")).get_text(strip=True) if div_locationinfo.find("div", class_=re.compile(".*LocationAddress.*")) else None
+            neigh, city = div_locationinfo.find("h2", attrs={"data-qa": "POSTING_CARD_LOCATION"}).get_text(strip=True).split(",") if div_locationinfo.find("h2", attrs={"data-qa": "POSTING_CARD_LOCATION"}) else (None, None)
         else:
             address, neigh, city = (None, None, None)
 
