@@ -21,14 +21,15 @@ def process_page():
     options.add_argument('log-level=3')
 
     browser = webdriver.Chrome(options=options)
-    # stealth(browser,
-    #                     languages=["en-US", "en"],
-    #                     vendor="Google Inc.",
-    #                     platform="Win32",
-    #                     webgl_vendor="Intel Inc.",
-    #                     renderer="Intel Iris OpenGL Engine",
-    #                     fix_hairline=True,
-    #                     )
+    stealth(browser,
+        languages=["en-US", "en"],
+        vendor="Debian",
+        platform="Linux x86_64",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+    )
+
 
     # Abrir la URL en el navegador
     browser.get(url) 
