@@ -12,7 +12,7 @@ app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 def process_page():
     url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     options = webdriver.EdgeOptions()
-    options.use_chromium = True
+    #options.use_chromium = True
     options.add_argument("start-maximized")
     options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
