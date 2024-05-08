@@ -31,21 +31,21 @@ def process_page():
     options.add_argument("--headless")
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-browser-side-navigation')
-    options.add_argument("--remote-debugging-port=9222")
-    options.add_argument('--disable-gpu')
+    #options.add_argument("--remote-debugging-port=9222")
+    #options.add_argument('--disable-gpu')
     options.add_argument("--log-level=3")
 
     # Agrega las opciones del proxy al navegador
     options.add_experimental_option('prefs', proxy_options)
 
     browser = webdriver.Chrome(options=options)
-    stealth(browser,
-            languages=["es"],
-            vendor="Debian",
-            platform="Linux x86_64",
-            webgl_vendor="AMD",
-            renderer="AMD Inc."
-            )
+    # stealth(browser,
+    #         languages=["es"],
+    #         vendor="Debian",
+    #         platform="Linux x86_64",
+    #         webgl_vendor="AMD",
+    #         renderer="AMD Inc."
+    #         )
 
     url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     browser.get(url)
