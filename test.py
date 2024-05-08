@@ -11,16 +11,14 @@ app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 
 def process_page():
     url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
-    # Configurar las opciones del navegador Chrome WebDriver
-    options = uc.ChromeOptions()
+    options = webdriver.EdgeOptions()
+    options.use_chromium = True
     options.add_argument("start-maximized")
     options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
-    #options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    #options.add_experimental_option('useAutomationExtension', False)
-    #options.add_argument("--auto-open-devtools-for-tabs") # automatically open dev tools on every new tab
-    #options.add_argument('log-level=3')
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
 
-    browser = uc.Chrome(options=options)
+    # Iniciar el navegador Edge
+    browser = webdriver.Edge(options=options)
     # stealth(browser,
     #     languages=["en-US", "en"],
     #     vendor="Debian",
