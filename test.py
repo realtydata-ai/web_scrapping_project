@@ -15,7 +15,7 @@ def process_page():
     options = uc.ChromeOptions()
     options.add_argument("start-maximized")
     options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    #options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_argument("--auto-open-devtools-for-tabs") # automatically open dev tools on every new tab
     options.add_argument('log-level=3')
