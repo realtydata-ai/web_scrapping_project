@@ -12,10 +12,10 @@ def process_page():
     url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     # Configurar las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
-    # user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
-    # options.add_argument(f'user-agent={user_agent}')
+    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36"
+    options.add_argument(f'user-agent={user_agent}')
     options.add_argument("start-maximized")
-    #options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
+    options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_argument('log-level=3')
