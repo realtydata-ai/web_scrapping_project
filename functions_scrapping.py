@@ -371,6 +371,7 @@ def process_page(browser, url):
         # Procesar los anuncios de la página y devolver el resultado
         return process_list_anuncios(anuncios, url)
     else:
+        print(html)
         # Si no se encontró el contenedor, imprimir un mensaje y volver a cargar la página
         print(f'No se encontró el contenedor en la página {url}. Recargando la página...')
         browser.refresh()

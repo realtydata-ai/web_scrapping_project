@@ -15,7 +15,7 @@ def process_urls():
     url_base = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     
     # Construye una lista de URLs de las páginas a procesar
-    urls = [f"{url_base}-pagina-{i}.html" for i in range(1, 50)]
+    urls = [f"{url_base}-pagina-{i}.html" for i in range(1, 2)]
 
     print("Procesando páginas...")
 
