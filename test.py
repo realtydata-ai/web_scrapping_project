@@ -5,30 +5,37 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium_stealth import stealth
 from flask import Flask  # Importa la clase Flask del módulo flask
+from pyvirtualdisplay import Display
 import undetected_chromedriver as uc
 
 app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 
 def process_page():
+    display = Display(visible=0, size=(800, 800))  
+    display.start()
     url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     # Configurar las opciones del navegador Chrome WebDriver
-    options = uc.ChromeOptions()
-    options.add_argument("start-maximized")
-    options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
-    #options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    #options.add_experimental_option('useAutomationExtension', False)
-    #options.add_argument("--auto-open-devtools-for-tabs") # automatically open dev tools on every new tab
-    #options.add_argument('log-level=3')
+    options = webdriver.ChromeOptions()
+    options.add_argument('--no-sandbox')
+    options.add_argument('start-maximized')
+    options.add_argument('enable-automation')
+    options.add_argument('--disable-infobars')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--disable-browser-side-navigation')
+    options.add_argument("--remote-debugging-port=9222")
+    # options.add_argument("--headless")
+    options.add_argument('--disable-gpu')
+    options.add_argument("--log-level=3")
 
-    browser = uc.Chrome(options=options)
-    stealth(browser,
-        languages=["en-US", "en"],
-        vendor="Debian",
-        platform="Linux x86_64",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-    )
+    browser = webdriver.Chrome(options=options)
+    # stealth(browser,
+    #     languages=["en-US", "en"],
+    #     vendor="Debian",
+    #     platform="Linux x86_64",
+    #     webgl_vendor="Intel Inc.",
+    #     renderer="Intel Iris OpenGL Engine",
+    #     fix_hairline=True,
+    # )
 
 
     # Abrir la URL en el navegador
