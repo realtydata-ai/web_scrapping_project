@@ -29,7 +29,7 @@ def process_page():
 
     browser = webdriver.Chrome(options=options)
     stealth(browser,
-        languages=["en-US", "en"],
+        languages=["es"],
         vendor="Debian",
         platform="Linux x86_64",
         webgl_vendor="Intel Inc.",
