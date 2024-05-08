@@ -32,9 +32,8 @@ def process_page():
         languages=["es"],
         vendor="Debian",
         platform="Linux x86_64",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
+        webgl_vendor="AMD",
+        renderer="AMD Inc."
     )
 
 
