@@ -12,7 +12,7 @@ app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 
 def process_page():
     # Configura el proxy
-    proxy = 'http://190.220.1.173:56974'
+    proxy = '200.32.51.179:8080'
     proxy_options = {
         'proxy': {
             'http': proxy,
