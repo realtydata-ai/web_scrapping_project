@@ -11,10 +11,18 @@ import undetected_chromedriver as uc
 app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 
 def process_page():
-    display = Display(visible=0, size=(800, 800))  
-    display.start()
-    url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
-    # Configurar las opciones del navegador Chrome WebDriver
+    # Configura el proxy
+    proxy = 'http://190.220.1.173:56974'
+    proxy_options = {
+        'proxy': {
+            'http': proxy,
+            'https': proxy,
+            'no_proxy': '',
+            'proxyType': 'MANUAL',
+        }
+    }
+
+    # Configura las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument('start-maximized')
@@ -23,30 +31,29 @@ def process_page():
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-browser-side-navigation')
     options.add_argument("--remote-debugging-port=9222")
-    # options.add_argument("--headless")
     options.add_argument('--disable-gpu')
     options.add_argument("--log-level=3")
 
+    # Agrega las opciones del proxy al navegador
+    options.add_experimental_option('prefs', proxy_options)
+
     browser = webdriver.Chrome(options=options)
     stealth(browser,
-        languages=["es"],
-        vendor="Debian",
-        platform="Linux x86_64",
-        webgl_vendor="AMD",
-        renderer="AMD Inc."
-    )
+            languages=["es"],
+            vendor="Debian",
+            platform="Linux x86_64",
+            webgl_vendor="AMD",
+            renderer="AMD Inc."
+            )
 
+    url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
+    browser.get(url)
 
-    # Abrir la URL en el navegador
-    browser.get(url) 
-
-    # Esperar un tiempo aleatorio para simular el comportamiento humano
     time.sleep(random.randint(4, 8))
 
-    # Obtener el código fuente HTML de la página
     html = browser.page_source
     print(html)
-
+    
 @app.route('/')
 def index():
     process_page()
