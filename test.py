@@ -5,13 +5,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium_stealth import stealth
 from flask import Flask  # Importa la clase Flask del módulo flask
+import undetected_chromedriver as uc
 
 app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 
 def process_page():
     url = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     # Configurar las opciones del navegador Chrome WebDriver
-    options = webdriver.ChromeOptions()
+    options = uc.ChromeOptions()
     options.add_argument("start-maximized")
     options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -19,7 +20,7 @@ def process_page():
     options.add_argument("--auto-open-devtools-for-tabs") # automatically open dev tools on every new tab
     options.add_argument('log-level=3')
 
-    browser = webdriver.Chrome(options=options)
+    browser = uc.Chrome(options=options)
     stealth(browser,
         languages=["en-US", "en"],
         vendor="Debian",
