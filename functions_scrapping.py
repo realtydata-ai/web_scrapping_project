@@ -432,7 +432,7 @@ def process_page(url):
     browser.get(url) 
     
     # Esperar un tiempo aleatorio para simular el comportamiento humano
-    time.sleep(random.randint(4, 8))
+    time.sleep(random.randint(20, 30))
     
     # Obtener el código fuente HTML de la página
     html = browser.page_source
@@ -456,7 +456,7 @@ def process_page(url):
         print(html)
         # Si no se encontró el contenedor, imprimir un mensaje y volver a cargar la página
         print(f'No se encontró el contenedor en la página {url}. Recargando la página...')
-        browser.refresh()
+        browser.quit()
         time.sleep(random.randint(10, 12))
         return process_page(url)
 
