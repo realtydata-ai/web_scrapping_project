@@ -21,7 +21,7 @@ def process_page():
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 13_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15',
 ]
     
-    ips = ['45.238.220.1:8181','200.61.16.80:8080']
+    ips = ['152.231.62.1:999','45.70.221.22:18080','186.125.235.253:999']
     
 
 
