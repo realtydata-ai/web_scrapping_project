@@ -282,26 +282,54 @@ def process_property(to_post):
     :param to_post: La URL de la propiedad que se va a procesar.
     :return: Un diccionario que contiene la información procesada de la propiedad.
     """
-    # Configurar las opciones del navegador Chrome WebDriver
+    ips = ['152.231.62.1:999','45.70.221.22:18080','186.125.235.253:999']
+    # Configura las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
-    options.add_argument("start-maximized")
-    options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('useAutomationExtension', False)
-    options.add_argument('log-level=3')
-    
-    # Inicializar el Chrome WebDriver con las opciones configuradas
-    driver = webdriver.Chrome(options=options) 
-    
-    # Configurar el stealth para el WebDriver
+    #run in headless mode
+    options.add_argument("--headless")
+
+    # disable the AutomationControlled feature of Blink rendering engine
+    options.add_argument('--disable-blink-features=AutomationControlled')
+
+    # disable pop-up blocking
+    options.add_argument('--disable-popup-blocking')
+
+    # start the browser window in maximized mode
+    options.add_argument('--start-maximized')
+
+    # disable extensions
+    options.add_argument('--disable-extensions')
+
+    # disable sandbox mode
+    options.add_argument('--no-sandbox')
+
+    # disable shared memory usage
+    options.add_argument('--disable-dev-shm-usage')
+
+    #
+    options.add_argument("--log-level=3")
+
+
+    #options.add_argument(f'user-agent={user_agent}')
+
+    proxy = random.choice(ips)
+    # Agrega las opciones del proxy al navegador
+    options.add_argument(f'--proxy-server={proxy}')
+
+    options.add_experimental_option("excludeSwitches",["enable-automation"])
+    options.add_experimental_option("useAutomationExtension",False)
+    #options.page_load_strategy = 'normal'
+
+    driver = webdriver.Chrome(options=options)
     stealth(driver,
-        languages=["en-US", "en"],
-        vendor="Google Inc.",
-        platform="Win32",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-        )
+            languages=["en-US", "en"],
+            vendor="Google Inc.",
+            platform="Win32",
+            webgl_vendor="Intel Inc.",
+            renderer="Intel Iris OpenGL Engine",
+            fix_hairline=True,
+            )
+    
     
     # Construir la URL completa de la propiedad a procesar
     url_base = 'https://www.zonaprop.com.ar'
@@ -339,7 +367,7 @@ def process_property(to_post):
     
     return dict_property
 
-def process_page(browser, url):
+def process_page(url):
     """
     Procesa una página de anuncios.
 
@@ -347,6 +375,54 @@ def process_page(browser, url):
     :param url: La URL de la página que se va a procesar.
     :return: El resultado del procesamiento de la página.
     """
+    ips = ['152.231.62.1:999','45.70.221.22:18080','186.125.235.253:999']
+    # Configura las opciones del navegador Chrome WebDriver
+    options = webdriver.ChromeOptions()
+    #run in headless mode
+    options.add_argument("--headless")
+
+    # disable the AutomationControlled feature of Blink rendering engine
+    options.add_argument('--disable-blink-features=AutomationControlled')
+
+    # disable pop-up blocking
+    options.add_argument('--disable-popup-blocking')
+
+    # start the browser window in maximized mode
+    options.add_argument('--start-maximized')
+
+    # disable extensions
+    options.add_argument('--disable-extensions')
+
+    # disable sandbox mode
+    options.add_argument('--no-sandbox')
+
+    # disable shared memory usage
+    options.add_argument('--disable-dev-shm-usage')
+
+    #
+    options.add_argument("--log-level=3")
+
+
+    #options.add_argument(f'user-agent={user_agent}')
+
+    proxy = random.choice(ips)
+    # Agrega las opciones del proxy al navegador
+    options.add_argument(f'--proxy-server={proxy}')
+
+    options.add_experimental_option("excludeSwitches",["enable-automation"])
+    options.add_experimental_option("useAutomationExtension",False)
+    #options.page_load_strategy = 'normal'
+
+    browser = webdriver.Chrome(options=options)
+    stealth(browser,
+            languages=["en-US", "en"],
+            vendor="Google Inc.",
+            platform="Win32",
+            webgl_vendor="Intel Inc.",
+            renderer="Intel Iris OpenGL Engine",
+            fix_hairline=True,
+            )
+    
     # Abrir la URL en el navegador
     browser.get(url) 
     
@@ -443,28 +519,8 @@ def process_page_wrapper(url):
     :return: El resultado del procesamiento de la página o una lista vacía si se produce un error.
     """
     try:
-        # Configurar las opciones del navegador Chrome WebDriver
-        options = webdriver.ChromeOptions()
-        options.add_argument("start-maximized")
-        options.add_argument("--headless")  # Ejecutar en modo headless (sin interfaz gráfica)
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option('useAutomationExtension', False)
-        options.add_argument('log-level=3')
-
-        # Iniciar el navegador Chrome WebDriver con las opciones configuradas
-        with webdriver.Chrome(options=options) as browser:
-            # Configurar el stealth para el navegador
-            stealth(browser,
-                    languages=["en-US", "en"],
-                    vendor="Google Inc.",
-                    platform="Win32",
-                    webgl_vendor="Intel Inc.",
-                    renderer="Intel Iris OpenGL Engine",
-                    fix_hairline=True,
-                    )
-            
             # Procesar la página y devolver el resultado
-            return process_page(browser, url)
+            return process_page(url)
     except Exception as e:
         # Manejar cualquier excepción que ocurra durante el procesamiento de la página
         print(f'Error al procesar la página {url}: {e}')
