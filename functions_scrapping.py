@@ -339,14 +339,15 @@ def process_property(to_post):
     driver.get(url_final)
     
     # Esperar un tiempo aleatorio para simular el comportamiento humano
-    time.sleep(random.randint(4, 8))
+    time.sleep(random.randint(20, 30))
     
     # Obtener el código fuente HTML de la página
     html = driver.page_source
-    
+    soup = bs(html, "lxml")
     # Esperar unos segundos adicionales para asegurar que la página haya cargado completamente
-    time.sleep(3)
-    if bs(html, "lxml").find('div',class_='main-container-property'):
+    time.sleep(20)
+    print(soup)
+    if soup.find('div',class_='main-container-property'):
 
         # Obtener la información general de la propiedad
         dict_property = get_property_overall_data(html)
