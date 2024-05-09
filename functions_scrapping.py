@@ -282,7 +282,7 @@ def process_property(to_post):
     :param to_post: La URL de la propiedad que se va a procesar.
     :return: Un diccionario que contiene la información procesada de la propiedad.
     """
-    ips = ['181.192.2.23:8080','45.70.221.22:18080','190.103.177.131:80']
+    ips = ['185.199.231.45:8382']
     # Configura las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
     #run in headless mode
@@ -380,7 +380,7 @@ def process_page(url):
     :param url: La URL de la página que se va a procesar.
     :return: El resultado del procesamiento de la página.
     """
-    ips = ['181.192.2.23:8080','45.70.221.22:18080','190.103.177.131:80']
+    ips = ['185.199.231.45:8382']
     # Configura las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
     #run in headless mode
