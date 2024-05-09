@@ -456,7 +456,7 @@ def process_page(url):
         print(f'No se encontró el contenedor en la página {url}. Recargando la página...')
         browser.refresh()
         time.sleep(random.randint(10, 12))
-        return process_page(browser, url)
+        return process_page(url)
 
 def process_list_anuncios(anuncios, url):
     """
