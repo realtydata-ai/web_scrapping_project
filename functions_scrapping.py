@@ -346,26 +346,30 @@ def process_property(to_post):
     
     # Esperar unos segundos adicionales para asegurar que la página haya cargado completamente
     time.sleep(3)
-    
-    # Obtener la información general de la propiedad
-    dict_property = get_property_overall_data(html)
+    if bs(html, "lxml").find('div',class_='main-container-property'):
 
-    # Encontrar todos los botones dentro del div con el id "reactGeneralFeatures"
-    buttons = driver.find_elements(By.CSS_SELECTOR, '#reactGeneralFeatures button')
+        # Obtener la información general de la propiedad
+        dict_property = get_property_overall_data(html)
 
-    # Extraer información detallada de las características de la propiedad
-    data = features_info(buttons, driver)
+        # Encontrar todos los botones dentro del div con el id "reactGeneralFeatures"
+        buttons = driver.find_elements(By.CSS_SELECTOR, '#reactGeneralFeatures button')
 
-    # Crear un diccionario con las características de la propiedad
-    dict_page = create_dict_features(data)
-    
-    # Actualizar el diccionario de la propiedad con las características detalladas
-    dict_property.update(dict_page)
-    
-    # Cerrar el navegador
-    driver.quit()
-    
-    return dict_property
+        # Extraer información detallada de las características de la propiedad
+        data = features_info(buttons, driver)
+
+        # Crear un diccionario con las características de la propiedad
+        dict_page = create_dict_features(data)
+        
+        # Actualizar el diccionario de la propiedad con las características detalladas
+        dict_property.update(dict_page)
+        
+        # Cerrar el navegador
+        driver.quit()
+        
+        return dict_property
+    else:
+        print("No se encontro la página del articulo, cargando nuevamente")
+        process_property(to_post)
 
 def process_page(url):
     """
