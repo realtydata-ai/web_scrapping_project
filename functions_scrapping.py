@@ -282,7 +282,7 @@ def process_property(to_post):
     :param to_post: La URL de la propiedad que se va a procesar.
     :return: Un diccionario que contiene la información procesada de la propiedad.
     """
-    ips = ['152.231.62.1:999']
+    ips = ['181.209.125.186:999','200.69.159.177:8080','177.136.85.113:999','181.209.111.146:999','45.229.30.65:11211','181.209.78.75:999']
     # Configura las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
     #run in headless mode
@@ -380,7 +380,7 @@ def process_page(url):
     :param url: La URL de la página que se va a procesar.
     :return: El resultado del procesamiento de la página.
     """
-    ips = ['152.231.62.1:999']
+    ips = ['181.209.125.186:999','200.69.159.177:8080','177.136.85.113:999','181.209.111.146:999','45.229.30.65:11211','181.209.78.75:999']
     # Configura las opciones del navegador Chrome WebDriver
     options = webdriver.ChromeOptions()
     #run in headless mode
@@ -445,6 +445,7 @@ def process_page(url):
 
     # Verificar si se encontró el contenedor antes de intentar seleccionar elementos
     if div_postings_container:
+        print(proxy)
         # Seleccionar todos los anuncios dentro del contenedor
         anuncios = div_postings_container.find_all(class_='CardContainer-sc-1tt2vbg-5 fvuHxG')
 
