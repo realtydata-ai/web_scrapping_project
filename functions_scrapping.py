@@ -244,11 +244,11 @@ def get_property_overall_data(html_page):
             publicated_since = p_tag.get_text(strip=True)
     
     # Extraer información del publicador de la propiedad
-    publisher_div = soup.find('div', class_='ContainerCard-sc-orxlzl-0 flHWUR')
+    publisher_div = soup.find('div', class_=re.compile(".*ContainerCard-sc-orxlzl-0.*"))
     if publisher_div:
         img_tag = publisher_div.find('img')
-        if publisher_div.find('div', class_='InfoName-sc-orxlzl-4 lnGFmk'):
-            name_publisher = publisher_div.find('div', class_='InfoName-sc-orxlzl-4 lnGFmk').get_text(strip=True)
+        if publisher_div.find('div', class_=re.compile(".*InfoName-sc-orxlzl-4.*")):
+            name_publisher = publisher_div.find('div', class_=re.compile(".*InfoName-sc-orxlzl-4.*")).get_text(strip=True)
         else:
             name_publisher = None
         if img_tag:
@@ -289,7 +289,8 @@ def process_property(to_post):
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
     options.add_argument('log-level=3')
-    
+    #options.add_argument("--remote-debugging-port=9222")
+
     # Inicializar el Chrome WebDriver con las opciones configuradas
     driver = webdriver.Chrome(options=options) 
     
@@ -365,8 +366,7 @@ def process_page(browser, url):
     # Verificar si se encontró el contenedor antes de intentar seleccionar elementos
     if div_postings_container:
         # Seleccionar todos los anuncios dentro del contenedor
-        anuncios = div_postings_container.find_all(class_='CardContainer-sc-1tt2vbg-5 fvuHxG')
-
+        anuncios = div_postings_container.find_all(class_=re.compile(".*CardContainer-sc-1tt2vbg-5.*"))
         
         # Procesar los anuncios de la página y devolver el resultado
         return process_list_anuncios(anuncios, url)
@@ -390,7 +390,7 @@ def process_list_anuncios(anuncios, url):
     # Iterar sobre cada anuncio en la lista de anuncios
     for anuncio in anuncios:
         # Encontrar la información principal del anuncio
-        div_maininfo_anuncio = anuncio.find("div", class_="PostingCardLayout-sc-i1odl-0 egwEUc")
+        div_maininfo_anuncio = anuncio.find("div", class_=re.compile(".*PostingCardLayout-sc-i1odl-0.*"))
 
         # Definir el precio del estado del anuncio
         div_price = anuncio.find("div", attrs={"data-qa": "POSTING_CARD_PRICE"}).get_text(strip=True) if anuncio.find("div", attrs={"data-qa": "POSTING_CARD_PRICE"}) else None
@@ -399,9 +399,9 @@ def process_list_anuncios(anuncios, url):
         div_expense = anuncio.find("div", attrs={"data-qa": "expensas"}).get_text(strip=True) if anuncio.find("div", attrs={"data-qa": "expensas"}) else None
 
         # Definir el vecindario, ciudad y dirección del anuncio
-        div_locationinfo = anuncio.find("div", class_=re.compile(".*LocationBlock.*"))
+        div_locationinfo = anuncio.find("div", class_=re.compile(".*LocationBlock-sc-ge2uzh-1.*"))
         if div_locationinfo:
-            address = div_locationinfo.find("div", class_=re.compile(".*LocationAddress.*")).get_text(strip=True) if div_locationinfo.find("div", class_=re.compile(".*LocationAddress.*")) else None
+            address = div_locationinfo.find("div", class_=re.compile(".*LocationAddress-sc-ge2uzh-0.*")).get_text(strip=True) if div_locationinfo.find("div", class_=re.compile(".*LocationAddress-sc-ge2uzh-0.*")) else None
             neigh, city = div_locationinfo.find("h2", attrs={"data-qa": "POSTING_CARD_LOCATION"}).get_text(strip=True).split(",") if div_locationinfo.find("h2", attrs={"data-qa": "POSTING_CARD_LOCATION"}) else (None, None)
         else:
             address, neigh, city = (None, None, None)
@@ -449,6 +449,9 @@ def process_page_wrapper(url):
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option('useAutomationExtension', False)
         options.add_argument('log-level=3')
+        #options.add_argument("--remote-debugging-port=9222")
+
+
 
         # Iniciar el navegador Chrome WebDriver con las opciones configuradas
         with webdriver.Chrome(options=options) as browser:

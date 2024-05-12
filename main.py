@@ -6,21 +6,67 @@ from flask import send_file
 from io import BytesIO
 import pandas as pd
 import tempfile
+import re
 
 app = Flask(__name__)  # Crea una instancia de la aplicación Flask
 
 # Define la función que ejecuta tu código
 def process_urls():
+    n = 100000
+        # Configurar las opciones del navegador Chrome WebDriver
+    options = webdriver.ChromeOptions()
+    #run in headless mode
+    options.add_argument("--headless")
+    # disable the AutomationControlled feature of Blink rendering engine
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    # disable pop-up blocking
+    options.add_argument('--disable-popup-blocking')
+    # disable extensions
+    options.add_argument('--disable-extensions')
+    # disable sandbox mode
+    options.add_argument('--no-sandbox')
+    # disable shared memory usage
+    options.add_argument('--disable-dev-shm-usage')
+    #
+    options.add_argument("--log-level=3")
+    options.add_experimental_option("excludeSwitches",["enable-automation"])
+    options.add_experimental_option("useAutomationExtension",False)
+    options.add_argument('--disable-gpu')
+
+    
+    # Inicializar el Chrome WebDriver con las opciones configuradas
+    driver = webdriver.Chrome(options=options) 
+    
+    # Configurar el stealth para el WebDriver
+    stealth(driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+        )
+    
     # URL base para los anuncios de alquiler en Córdoba
     url_base = "https://www.zonaprop.com.ar/inmuebles-alquiler-cordoba.html"
     
+    max_url = f"{url_base}-pagina-{n}.html"
+    driver.get(max_url)
+    url_max = driver.current_url
+    # Extrae el número de la URL usando expresiones regulares
+    n_paginas = re.search(r'-pagina-(\d+)', url_max).group(1)
+
+    # Imprime el número de la página
+    print("Número de página:", int(n_paginas))
+    driver.quit()
+
     # Construye una lista de URLs de las páginas a procesar
-    urls = [f"{url_base}-pagina-{i}.html" for i in range(1, 2)]
+    urls = [f"{url_base}-pagina-{i}.html" for i in range(1, int(n_paginas))]
 
     print("Procesando páginas...")
 
     # Ejecución concurrente de la función process_page_wrapper para cada URL
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         results = executor.map(process_page_wrapper, urls)
 
     # Combina los resultados de las ejecuciones en una lista de datos
