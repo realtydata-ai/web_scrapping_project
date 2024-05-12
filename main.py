@@ -102,4 +102,4 @@ def index():
 
 # Inicia la aplicación Flask cuando el script se ejecuta directamente
 if __name__ == '__main__':
-    app.run(debug=True)  # Inicia el servidor Flask en modo de depuración
+    app.run(host='0.0.0.0', port=5000,debug=True)  # Inicia el servidor Flask en modo de depuración

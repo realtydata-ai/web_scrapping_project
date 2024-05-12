@@ -296,13 +296,14 @@ def process_property(to_post):
     
     # Configurar el stealth para el WebDriver
     stealth(driver,
-        languages=["en-US", "en"],
-        vendor="Google Inc.",
-        platform="Win32",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-        )
+            languages=["en-US", "en"],
+            vendor="Google Inc.",
+            platform="Win32",
+            webgl_vendor="Intel Inc.",
+            renderer="Intel Iris OpenGL Engine",
+            fix_hairline=True,
+            )
+    
     
     # Construir la URL completa de la propiedad a procesar
     url_base = 'https://www.zonaprop.com.ar'
@@ -316,29 +317,33 @@ def process_property(to_post):
     
     # Obtener el código fuente HTML de la página
     html = driver.page_source
-    
+    soup = bs(html, "lxml")
     # Esperar unos segundos adicionales para asegurar que la página haya cargado completamente
-    time.sleep(3)
-    
-    # Obtener la información general de la propiedad
-    dict_property = get_property_overall_data(html)
+    time.sleep(20)
+    if soup.find('div',class_='main-container-property'):
 
-    # Encontrar todos los botones dentro del div con el id "reactGeneralFeatures"
-    buttons = driver.find_elements(By.CSS_SELECTOR, '#reactGeneralFeatures button')
+        # Obtener la información general de la propiedad
+        dict_property = get_property_overall_data(html)
 
-    # Extraer información detallada de las características de la propiedad
-    data = features_info(buttons, driver)
+        # Encontrar todos los botones dentro del div con el id "reactGeneralFeatures"
+        buttons = driver.find_elements(By.CSS_SELECTOR, '#reactGeneralFeatures button')
 
-    # Crear un diccionario con las características de la propiedad
-    dict_page = create_dict_features(data)
-    
-    # Actualizar el diccionario de la propiedad con las características detalladas
-    dict_property.update(dict_page)
-    
-    # Cerrar el navegador
-    driver.quit()
-    
-    return dict_property
+        # Extraer información detallada de las características de la propiedad
+        data = features_info(buttons, driver)
+
+        # Crear un diccionario con las características de la propiedad
+        dict_page = create_dict_features(data)
+        
+        # Actualizar el diccionario de la propiedad con las características detalladas
+        dict_property.update(dict_page)
+        
+        # Cerrar el navegador
+        driver.quit()
+        
+        return dict_property
+    else:
+        print("No se encontro la página del articulo, cargando nuevamente")
+        process_property(to_post)
 
 def process_page(browser, url):
     """
@@ -466,7 +471,7 @@ def process_page_wrapper(url):
                     )
             
             # Procesar la página y devolver el resultado
-            return process_page(browser, url)
+            return process_page(browser,url)
     except Exception as e:
         # Manejar cualquier excepción que ocurra durante el procesamiento de la página
         print(f'Error al procesar la página {url}: {e}')
